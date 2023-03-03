@@ -31,7 +31,7 @@
         </javaModelGenerator>
 
         <!-- step3：指定sql映射文件生成的位置 -->
-        <sqlMapGenerator targetPackage="org.ph.ssm.crud.mapper" targetProject=".\src">
+        <sqlMapGenerator targetPackage="org.ph.ssm.crud.mapper" targetProject=".\src\resources\mappers">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
