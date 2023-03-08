@@ -10,6 +10,9 @@ import java.util.List;
  * Level 为枚举类型
  */
 public class BaseModel {
+    private String code;
+    private String msg;
+    private int totalCount;
     private List<String> messages = new ArrayList<String>();
     private Level level = Level.info;
     private Boolean success = true;
@@ -46,6 +49,12 @@ public class BaseModel {
 
     public void addMessage(String message) {
         this.messages.add(message);
+    }
+    public void setReturnMsg(String Code,String Msg,int PageSize)
+    {
+        this.code=Code;
+        this.msg=Msg;
+        this.totalCount=PageSize;
     }
 }
 
