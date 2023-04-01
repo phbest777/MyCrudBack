@@ -31,6 +31,10 @@ public class EmpService {
         return employeeMapper.selectAll();
     }
 
+
+    public List<Employee> getAllEmp_Vab() {
+        return employeeMapper.selectAll();
+    }
     /**
      * 插入某个员工的信息
      *

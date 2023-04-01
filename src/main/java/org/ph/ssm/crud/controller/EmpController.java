@@ -48,17 +48,17 @@ public class EmpController {
     }
     /**
      * 获取分页的数据--vab-vue
-     * @param pageNum 获取第几页的数据
-     * @param pageSize 返回数据的条数
+
      * @return 返回数据
      */
-    @GetMapping("/emp/gelist/")
-    public EmpVabModel getAllEmp_Vab(@PathVariable Integer pageNum, @RequestParam Integer pageSize) {
+    @CrossOrigin
+    @GetMapping("/emps/getlist")
+    public EmpVabModel getAllEmp_Vab() {
         // step1:引入分页插件(PageHelper)
         // step2:每次查询前，设置查询的页面以及查询的条数，每次获取5条数据
         //PageHelper.startPage(pageNum, pageSize);
         // step3:执行分页查询
-        List<Employee> employeeList = empService.getAllEmp();
+        List<Employee> employeeList = empService.getAllEmp_Vab();
         // step4:包装查询后的数据
         //PageInfo pageInfo = new PageInfo(employeeList);
         EmpVabModel empVabModel = new EmpVabModel();
@@ -66,10 +66,16 @@ public class EmpController {
            empVabModel.setReturnMsg("400","获取数据失败",0);
             return empVabModel;
         }
-        empVabModel.setReturnMsg("200","sucess",pageSize);
-        empVabModel.setList(employeeList);
+        System.out.println(employeeList.size());
+        int pageSize=employeeList.size();
+        empVabModel.setCode("200");
+        empVabModel.setMsg("success");
+        empVabModel.setTotalCount(pageSize);
+        empVabModel.setData(employeeList);
         return empVabModel;
     }
+
+
 
     /**
      * 获取某个员工的信息

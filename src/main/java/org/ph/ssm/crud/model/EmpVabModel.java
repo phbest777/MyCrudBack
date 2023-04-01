@@ -3,10 +3,14 @@ import org.ph.ssm.crud.bean.Department;
 import  org.ph.ssm.crud.bean.Employee;
 import java.util.List;
 
-public class EmpVabModel extends BaseModel{
-    private List<Employee> EmpList;
-    public void setList(List<Employee> empList) {
-        this.EmpList = empList;
+public class EmpVabModel extends VabBaseModel{
+    private List<Employee> data;
+    public List<Employee> getData()
+    {
+        return data;
     }
-    public List<Employee> getEmpList(){return EmpList;}
+    public void setData(List<Employee> data) {
+        this.data = data;
+    }
+
 }

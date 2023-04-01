@@ -50,6 +50,7 @@ public class BaseModel {
     public void addMessage(String message) {
         this.messages.add(message);
     }
+
     public void setReturnMsg(String Code,String Msg,int PageSize)
     {
         this.code=Code;
