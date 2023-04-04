@@ -5,7 +5,7 @@ import java.util.List;
 public class VabBaseModel {
     private String code;
     private String msg;
-    private int totalCount;
+    private long totalCount;
 
     public String getCode()
     {
@@ -23,11 +23,11 @@ public class VabBaseModel {
     {
         this.msg=msg;
     }
-    public int getTotalCount()
+    public long getTotalCount()
     {
         return totalCount;
     }
-    public void setTotalCount(int totalCount)
+    public void setTotalCount(long totalCount)
     {
         this.totalCount=totalCount;
     }
