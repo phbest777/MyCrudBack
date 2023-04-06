@@ -1,13 +1,11 @@
 package org.ph.ssm.crud.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.ph.ssm.crud.bean.Employee;
-import org.ph.ssm.crud.model.BaseModel;
-import org.ph.ssm.crud.model.EmpModel;
-import org.ph.ssm.crud.model.EmpPageModel;
-import org.ph.ssm.crud.model.EmpVabModel;
+import org.ph.ssm.crud.model.*;
 import org.ph.ssm.crud.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -115,6 +113,7 @@ public class EmpController {
     /**通过name 查找记录
      *
      */
+
     @CrossOrigin
     @GetMapping("/emps/getlist_name/{pageNum}")
     public EmpVabModel getAllEmp_By_Name(@PathVariable Integer pageNum,@RequestParam Integer pageSize,@RequestParam String empName) {
@@ -194,6 +193,69 @@ public class EmpController {
     }
 
     /**
+     * 删除某个员工的信息
+     * REST -- DELETE
+     * @param id 员工的id
+     * @return 返回数据
+     */
+    @CrossOrigin
+    @PostMapping(value = "/emps/DeleteEmp")
+    public VabBaseModel deleteEmpByIdVab(@RequestBody JsonNode empid) {
+        VabBaseModel empBaseVabModel = new VabBaseModel();
+        //System.out.println("emp id is :"+ empid);
+        System.out.println("emp id is :"+empid.path("id").asText());
+        if (empService.deleteEmpById(empid.path("id").asInt()) != 0) {
+            empBaseVabModel.setCode("200");
+            empBaseVabModel.setMsg("success");
+            return empBaseVabModel;
+        }
+        empBaseVabModel.setCode("999");
+        empBaseVabModel.setMsg("Delete Error");
+        return empBaseVabModel;
+    }
+
+
+    /**
+     * 删除某个员工的信息
+     * REST -- DELETE
+     * @param id 员工的id
+     * @return 返回数据
+     */
+    @CrossOrigin
+    @PostMapping(value = "/emps/DeleteEmpBatch")
+    public VabBaseModel deleteEmpByIdVabBatch(@RequestBody JsonNode empids) {
+        VabBaseModel empBaseVabModel = new VabBaseModel();
+        //System.out.println("emp id is :"+ empid);
+        System.out.println("emp id is :"+empids.path("ids").asText());
+        String[] empidList=empids.path("ids").asText().split(",");
+        int DeleteCnt=empidList.length;
+        for(int i=0;i< empidList.length;i++) {
+            System.out.println("delete id is:"+empidList[i]);
+            if (empService.deleteEmpById(Integer.parseInt(empidList[i])) != 0) {
+                DeleteCnt--;
+
+            }
+            else
+            {
+                empBaseVabModel.setCode("999");
+                empBaseVabModel.setMsg("ID["+empidList[i]+"] delete Error");
+                return empBaseVabModel;
+            }
+        }
+        if(DeleteCnt==0)
+        {
+            empBaseVabModel.setCode("200");
+            empBaseVabModel.setMsg("success");
+            return empBaseVabModel;
+        }
+        else {
+            empBaseVabModel.setCode("999");
+            empBaseVabModel.setMsg("Delete Error");
+            return empBaseVabModel;
+        }
+    }
+
+    /**
      * 向员工表中插入员工信息
      * REST -- POST
      * 使用 @RequestBody 需注意，前台传递的参数名要与 Employee 里的参数名对应，否则接收不到值
@@ -213,6 +275,28 @@ public class EmpController {
         baseModel.setSuccess(false);
         baseModel.setLevel(BaseModel.Level.error);
         return baseModel;
+    }
+
+    /**
+     * 向员工表中插入员工信息
+     * REST -- POST
+     * 使用 @RequestBody 需注意，前台传递的参数名要与 Employee 里的参数名对应，否则接收不到值
+     * @param employee 员工信息
+     * @return 返回数据
+     */
+    @CrossOrigin
+    @PostMapping("/emps/saveEmp")
+    public VabBaseModel insertEmp_Vab(@RequestBody Employee employee) {
+        //BaseModel baseModel = new BaseModel();
+        VabBaseModel empBaseVabModel = new VabBaseModel();
+        if (empService.insertEmp(employee) != 0) {
+            empBaseVabModel.setCode("200");
+            empBaseVabModel.setMsg("success");
+            return empBaseVabModel;
+        }
+        empBaseVabModel.setCode("999");
+        empBaseVabModel.setMsg("Save Error");
+        return empBaseVabModel;
     }
 
     /**
