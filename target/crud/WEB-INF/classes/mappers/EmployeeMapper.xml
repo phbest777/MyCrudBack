@@ -94,6 +94,15 @@
         ORDER BY e.id
     </select>
 
+    <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT e.id AS id, e.name AS name, e.salary AS salary, e.age AS age, e.email AS email, d.deptId AS deptId, d.deptName AS deptName
+        FROM emp e
+                 LEFT JOIN dept d
+                           ON e.deptId = d.deptId
+        where e.name=#{empName,jdbcType=VARCHAR}
+        ORDER BY e.id
+    </select>
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
         SELECT e.id AS id, e.name AS name, e.salary AS salary, e.age AS age, e.email AS email, d.deptId AS deptId, d.deptName AS deptName
         FROM emp e
