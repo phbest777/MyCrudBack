@@ -206,7 +206,7 @@ public class EmpController {
         System.out.println("emp id is :"+empid.path("id").asText());
         if (empService.deleteEmpById(empid.path("id").asInt()) != 0) {
             empBaseVabModel.setCode("200");
-            empBaseVabModel.setMsg("success");
+            empBaseVabModel.setMsg("删除成功");
             return empBaseVabModel;
         }
         empBaseVabModel.setCode("999");
@@ -245,7 +245,7 @@ public class EmpController {
         if(DeleteCnt==0)
         {
             empBaseVabModel.setCode("200");
-            empBaseVabModel.setMsg("success");
+            empBaseVabModel.setMsg("批量删除成功");
             return empBaseVabModel;
         }
         else {
@@ -318,6 +318,20 @@ public class EmpController {
         baseModel.setSuccess(false);
         baseModel.setLevel(BaseModel.Level.error);
         return baseModel;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/emps/updateEmp", method = RequestMethod.PUT)
+    public VabBaseModel updateEmpVab(@RequestBody Employee employee) {
+        VabBaseModel empBaseVabModel = new VabBaseModel();
+        if (empService.updateEmp(employee) != 0) {
+            empBaseVabModel.setCode("200");
+            empBaseVabModel.setMsg("success");
+            return empBaseVabModel;
+        }
+        empBaseVabModel.setCode("999");
+        empBaseVabModel.setMsg("Save Error");
+        return empBaseVabModel;
     }
 }
 
