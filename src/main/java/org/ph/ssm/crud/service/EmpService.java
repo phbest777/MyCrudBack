@@ -31,7 +31,9 @@ public class EmpService {
         return employeeMapper.selectAll();
     }
 
-
+    public List<Employee> GetEmpByName(String empName){
+        return employeeMapper.selectByName(empName);
+    }
     public List<Employee> getAllEmp_Vab() {
         return employeeMapper.selectAll();
     }

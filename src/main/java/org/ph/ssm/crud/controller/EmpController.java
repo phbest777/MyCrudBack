@@ -111,6 +111,45 @@ public class EmpController {
         return empVabModel;
     }
 
+
+    /**通过name 查找记录
+     *
+     */
+    @CrossOrigin
+    @GetMapping("/emps/getlist_name/{pageNum}")
+    public EmpVabModel getAllEmp_By_Name(@PathVariable Integer pageNum,@RequestParam Integer pageSize,@RequestParam String empName) {
+        // step1:引入分页插件(PageHelper)
+        // step2:每次查询前，设置查询的页面以及查询的条数，每次获取5条数据
+        //PageHelper.startPage(pageNum, pageSize);
+        // step3:执行分页查询
+        Page page=PageHelper.startPage(pageNum, pageSize);
+        List<Employee> employeeList = empService.GetEmpByName(empName);
+        long totalCount=page.getTotal();
+
+
+        System.out.println("all count is:"+totalCount);
+
+
+        PageInfo pageInfo = new PageInfo(employeeList,pageSize);
+
+        List<Employee> returnList= pageInfo.getList();
+        // step4:包装查询后的数据
+        //PageInfo pageInfo = new PageInfo(employeeList);
+        EmpVabModel empVabModel = new EmpVabModel();
+        if (employeeList.size() <= 0) {
+            empVabModel.setReturnMsg("400","获取数据失败",0);
+            return empVabModel;
+        }
+        System.out.println(employeeList.size());
+
+        empVabModel.setCode("200");
+        empVabModel.setMsg("success");
+        empVabModel.setTotalCount(totalCount);
+        empVabModel.setData(returnList);
+        return empVabModel;
+    }
+
+
     /**
      * 获取某个员工的信息
      * REST -- GET
